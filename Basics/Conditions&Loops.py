@@ -7,11 +7,7 @@ elif score >=70:
 else:
     print("Bad")
 
-
-
-
-# Online Python compiler (interpreter) to run Python online.
-
+-------------
 
 tools = ["python","Sql","Airflow"]
 for tool in tools:
@@ -29,3 +25,20 @@ This prints a message.
 f"" is an f-string, which lets you plug variables into strings.
 {tool} gets replaced by the actual tool name in the loop.
 
+--------------
+#While Loop
+
+i = 0
+while i < 3:
+    print("Love")
+    i += 1
+
+#Love
+#Love
+#Love
+-------------
+age = 20
+if(age>18):
+    print("Adult")
+else:
+    print("Not Adult")
