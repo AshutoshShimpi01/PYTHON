@@ -14,9 +14,17 @@ area = int(input("Enter value : "))
 
 if(area<100):
     logger.info(f"Your value is less")
+    logger.info("second line")
 else:
     logger.info(f"Share more details")
+    logger.info("third line")
 
 
-2025-05-10 15:23:36.579 | INFO     | __main__:<module>:16 - Your value is less
-2025-05-10 15:23:48.104 | INFO     | __main__:<module>:18 - Share more details
+Enter value : 111
+2025-05-10 15:28:09.606 | INFO     | __main__:<module>:19 - Share more details
+2025-05-10 15:28:09.607 | INFO     | __main__:<module>:20 - third line
+
+Enter value : 11
+2025-05-10 15:28:35.595 | INFO     | __main__:<module>:16 - Your value is less
+2025-05-10 15:28:35.595 | INFO     | __main__:<module>:17 - second line
+(base) ashutoshsanjayshimpi@192 PYTHON % 
