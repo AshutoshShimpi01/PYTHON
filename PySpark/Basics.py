@@ -28,3 +28,7 @@ df = spark.createDataFrame(data)
 df.show()
 
 #we cannot use list of sets with dataFrame. its only take value not key.  (error occurs)
+
+
+# Example: Tuple containing two lists
+tuple_of_lists = ([1, 2, 3], ['a', 'b', 'c'])
