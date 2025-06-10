@@ -58,6 +58,7 @@ employees.filter(col("dept_id") == 101).show()
 
 ✅ 6. Sort employees by salary descending
 
+employees.orderBy(employees.salary.desc()).show()
 employees.orderBy(col("salary").desc()).show()
 
 
