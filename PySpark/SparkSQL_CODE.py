@@ -30,36 +30,6 @@ departments.createOrReplaceTempView("departments")
 
 
 
-
-
-
-
-spark.sql("SELECT * FROM employees").show()
-
-
-SELECT name, salary FROM employees
-
-
-SELECT * FROM employees WHERE salary > 55000
-
-
-SELECT dept_id, AVG(salary) AS avg_salary FROM employees GROUP BY dept_id
-
-
-SELECT e.name, d.dept_name FROM employees e
-JOIN departments d ON e.dept_id = d.dept_id
-
-
-SELECT * FROM employees ORDER BY salary DESC
-
-
-SELECT COUNT(*) AS total_employees, MAX(salary) AS max_salary FROM employees
-
-
-
-
-
-
 Add 3rd table--
 
 from pyspark.sql.types import DateType
@@ -78,6 +48,70 @@ projects = spark.createDataFrame(project_data, project_columns)\
 projects.createOrReplaceTempView("projects")
 
 
+
+
+ 1. Show all employees
+
+employees.show()
+
+
+🔹 2. Filter employees with salary > 55000
+
+employees.filter(col("salary") > 55000).show()
+
+
+🔹 3. Group by department and find average salary
+
+employees.groupBy("dept_id").agg(avg("salary").alias("avg_salary")).show()
+
+
+🔹 4. Join employees with departments
+
+employees.join(departments, on="dept_id", how="left").select("name", "dept_name").show()
+
+
+🔹 5. Join employees with projects and show hours worked
+
+employees.join(projects, on="emp_id").select("name", "project_name", "hours_worked").show()
+
+
+🔹 6. Categorize employees by salary using when
+
+employees.withColumn(
+    "salary_level",
+    when(col("salary") >= 65000, "High")
+    .when(col("salary") >= 50000, "Medium")
+    .otherwise("Low")
+).show()
+
+
+🔹 7. Employees who worked more than 100 hours on any project
+
+projects.filter(col("hours_worked") > 100)\
+    .join(employees, on="emp_id")\
+    .select("name", "project_name", "hours_worked").show()
+
+
+🔹 8. Employees with no project (anti join)
+
+employees.join(projects, on="emp_id", how="left_anti").show()
+
+projects.groupBy("emp_id").agg(count("*").alias("project_count"))\
+    .join(employees, on="emp_id")\
+    .select("name", "project_count").show()
+
+
+🔹 10. Most recent project per employee (Window Function)
+
+from pyspark.sql.window import Window
+
+window_spec = Window.partitionBy("emp_id").orderBy(col("start_date").desc())
+
+projects.withColumn("row_num", row_number().over(window_spec))\
+    .filter(col("row_num") == 1)\
+    .select("emp_id", "project_name", "start_date")\
+    .join(employees, on="emp_id")\
+    .select("name", "project_name", "start_date").show()
 
 
 
