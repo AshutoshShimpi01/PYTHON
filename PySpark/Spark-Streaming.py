@@ -1,7 +1,8 @@
 Spark Streaming:
-Spark Streaming is a component of Apache Spark that enables processing of real-time streaming data using the same Spark API used for batch processing.
+Spark Streaming is enables processing of real-time streaming data using the same Spark API used for batch processing.
 
 💡 Key Concepts:
+                                                                                               
 Micro-Batch Processing:
 Spark Streaming breaks incoming data into small batches (e.g., every 1 second), processes each batch using Spark jobs, and outputs the results.
 
