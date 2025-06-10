@@ -137,3 +137,82 @@ Copy
 Edit
 df = spark.read.option("mode", "PERMISSIVE").option("columnNameOfCorruptRecord", "_corrupt_record").json("file.json")
 df.show()
+
+
+21. How to convert a DataFrame column to timestamp/date type?
+python
+Copy
+Edit
+from pyspark.sql.functions import to_date, to_timestamp
+
+df = df.withColumn("Date", to_date(col("date_str"), "yyyy-MM-dd"))
+df = df.withColumn("Timestamp", to_timestamp(col("timestamp_str"), "yyyy-MM-dd HH:mm:ss"))
+🔹 22. How to repartition and coalesce a DataFrame?
+python
+Copy
+Edit
+# Repartition (increases or reshuffles partitions)
+df = df.repartition(4)
+
+# Coalesce (reduce partitions without shuffle)
+df = df.coalesce(2)
+🔹 23. How to remove duplicate rows from a DataFrame?
+python
+Copy
+Edit
+df = df.dropDuplicates()
+🔹 24. How to get schema and DataFrame information?
+python
+Copy
+Edit
+df.printSchema()
+df.describe().show()
+df.summary().show()
+🔹 25. How to flatten a nested JSON structure?
+python
+Copy
+Edit
+from pyspark.sql.functions import col
+
+df = spark.read.json("nested.json")
+df.select(col("employee.name"), col("employee.age")).show()
+🔹 26. How to collect list of values per group (grouped collect)?
+python
+Copy
+Edit
+from pyspark.sql.functions import collect_list
+
+df.groupBy("Department").agg(collect_list("Name").alias("Employees")).show()
+🔹 27. How to broadcast a small DataFrame in join?
+python
+Copy
+Edit
+from pyspark.sql.functions import broadcast
+
+df1.join(broadcast(df2), "id").show()
+🔹 28. How to use isin() for multiple value filtering?
+python
+Copy
+Edit
+df.filter(df.Name.isin("John", "Sara")).show()
+🔹 29. How to create a DataFrame schema manually?
+python
+Copy
+Edit
+from pyspark.sql.types import StructType, StructField, StringType, IntegerType
+
+schema = StructType([
+    StructField("Name", StringType(), True),
+    StructField("Age", IntegerType(), True)
+])
+
+df = spark.createDataFrame(data, schema)
+🔹 30. How to convert DataFrame to RDD and vice versa?
+python
+Copy
+Edit
+# DataFrame to RDD
+rdd = df.rdd
+
+# RDD to DataFrame
+df2 = rdd.toDF(["Name", "Age"])
