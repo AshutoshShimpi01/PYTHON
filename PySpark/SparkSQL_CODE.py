@@ -206,5 +206,125 @@ projects.withColumn("row_num", row_number().over(window_spec))\
 
 
 
+Step 2: 15 Intermediate PySpark Join Questions & Answers
+
+🔹 1. Show all employees and their project names (if any)
+
+employees.join(projects, on="emp_id", how="left")\
+    .select("name", "project_name").show()
+
+
+🔹 2. Show only employees who are working on at least one project
+
+employees.join(projects, on="emp_id", how="inner")\
+    .select("name", "project_name").distinct().show()
+
+
+🔹 3. Show employees who are not assigned to any project
+
+employees.join(projects, on="emp_id", how="left_anti").show()
+
+
+🔹 4. Show departments and their employees (include departments with no employees)
+
+departments.join(employees, on="dept_id", how="left")\
+    .select("dept_name", "name").show()
+
+
+🔹 5. Total hours worked per employee
+
+projects.groupBy("emp_id")\
+    .agg(sum("hours_worked").alias("total_hours"))\
+    .join(employees, on="emp_id")\
+    .select("name", "total_hours").show()
+
+
+🔹 6. Join all 3 tables and show: employee name, department name, project name
+
+employees.join(departments, "dept_id", "left")\
+    .join(projects, "emp_id", "left")\
+    .select("name", "dept_name", "project_name").show()
+
+
+🔹 7. List employees working more than 100 hours on any project
+
+projects.filter(col("hours_worked") > 100)\
+    .join(employees, "emp_id")\
+    .select("name", "project_name", "hours_worked").show()
+
+
+🔹 8. Show each department and total salary of its employees
+
+employees.groupBy("dept_id")\
+    .agg(sum("salary").alias("total_salary"))\
+    .join(departments, "dept_id")\
+    .select("dept_name", "total_salary").show()
+
+
+🔹 9. Show employee name and number of projects assigned
+
+projects.groupBy("emp_id")\
+    .agg(count("*").alias("project_count"))\
+    .join(employees, "emp_id")\
+    .select("name", "project_count").show()
+
+
+🔹 10. Employees with more than one project
+
+projects.groupBy("emp_id")\
+    .agg(count("*").alias("project_count"))\
+    .filter(col("project_count") > 1)\
+    .join(employees, "emp_id")\
+    .select("name", "project_count").show()
+
+
+🔹 11. Latest project per employee (using window functions)
+
+from pyspark.sql.window import Window
+
+window_spec = Window.partitionBy("emp_id").orderBy(col("start_date").desc())
+
+projects.withColumn("rn", row_number().over(window_spec))\
+    .filter(col("rn") == 1)\
+    .join(employees, "emp_id")\
+    .select("name", "project_name", "start_date").show()
+
+
+🔹 12. Which employees are in the Finance department and working on any project
+
+emp_finance = employees.join(departments, "dept_id")\
+    .filter(col("dept_name") == "Finance")
+
+emp_finance.join(projects, "emp_id").select("name", "project_name").show()
+
+
+🔹 13. Count of employees per department (including departments with no employees)
+
+departments.join(employees, "dept_id", "left")\
+    .groupBy("dept_name")\
+    .agg(count("emp_id").alias("employee_count"))\
+    .show()
+
+
+🔹 14. Total hours worked on projects by department
+
+employees.join(projects, "emp_id")\
+    .groupBy("dept_id")\
+    .agg(sum("hours_worked").alias("total_hours"))\
+    .join(departments, "dept_id")\
+    .select("dept_name", "total_hours").show()
+
+
+🔹 15. List of employees with department name and total hours (even if 0)
+
+emp_proj = employees.join(projects, "emp_id", "left")\
+    .groupBy("emp_id", "name", "dept_id")\
+    .agg(coalesce(sum("hours_worked"), lit(0)).alias("total_hours"))
+
+emp_proj.join(departments, "dept_id", "left")\
+    .select("name", "dept_name", "total_hours").show()
+
+
+
 
 
