@@ -30,6 +30,92 @@ departments.createOrReplaceTempView("departments")
 
 
 
+
+✅ 1. Show all employee records
+
+employees.show()
+
+
+✅ 2. Select only employee names and salaries
+
+employees.select("name", "salary").show()
+
+
+✅ 3. Filter employees with salary > 55000
+
+employees.filter(col("salary") > 55000).show()
+
+
+✅ 4. Add a new column bonus = 10% of salary
+
+employees.withColumn("bonus", col("salary") * 0.10).show()
+
+
+✅ 5. Show employees from department 101 only
+
+employees.filter(col("dept_id") == 101).show()
+
+
+✅ 6. Sort employees by salary descending
+
+employees.orderBy(col("salary").desc()).show()
+
+
+✅ 7. Join employees with departments to show dept_name
+
+employees.join(departments, on="dept_id", how="left").select("name", "dept_name").show()
+
+
+✅ 8. Group by dept_id and find average salary
+
+employees.groupBy("dept_id").agg(avg("salary").alias("avg_salary")).show()
+
+
+✅ 9. Find number of employees in each department
+
+employees.groupBy("dept_id").count().show()
+
+
+✅ 10. Rename column name to employee_name
+
+employees.withColumnRenamed("name", "employee_name").show()
+
+
+✅ 11. Replace null department with value 999
+
+employees.fillna({"dept_id": 999}).show()
+
+
+✅ 12. Categorize employees by salary
+
+employees.withColumn(
+    "salary_band",
+    when(col("salary") > 65000, "High")
+    .when(col("salary") >= 50000, "Medium")
+    .otherwise("Low")
+).select("name", "salary", "salary_band").show()
+
+
+✅ 13. Check if any department has more than 1 employee
+
+employees.groupBy("dept_id").count().filter(col("count") > 1).show()
+
+
+✅ 14. Add a constant column country with value 'India'
+
+employees.withColumn("country", lit("India")).show()
+
+
+✅ 15. Show employees who are not assigned to any department
+
+employees.filter(col("dept_id").isNull()).show()
+
+
+
+
+
+
+
 Add 3rd table--
 
 from pyspark.sql.types import DateType
