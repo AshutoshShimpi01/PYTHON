@@ -14,6 +14,23 @@ Then join the result with projects on emp_id
 
 
 
+--Same with my logic
+
+emp_dept = employees.join(departments, 'dept_id')
+final_df = emp_dept.join(projects, 'emp_id')
+final_df.show()
+
+--for left & right join
+
+emp_dept = employees.join(departments, 'dept_id', 'left')
+final_df = emp_dept.join(projects, 'emp_id', 'right')
+
+emp_dept.show()
+final_df.show()
+
+----------------------
+
+
 from pyspark.sql.functions import *
 
 # Step 1: Join employees and departments
@@ -23,14 +40,6 @@ emp_dept = employees.join(departments, on='dept_id', how='inner')
 final_df = emp_dept.join(projects, on='emp_id', how='inner')
 
 final_df.show()
-
-
---Same with my logic
-
-emp_dept = employees.join(departments, 'dept_id')
-final_df = emp_dept.join(projects, 'emp_id')
-final_df.show()
-
 
 
 
