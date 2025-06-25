@@ -25,6 +25,15 @@ final_df = emp_dept.join(projects, on='emp_id', how='inner')
 final_df.show()
 
 
+--Same with my logic
+
+emp_dept = employees.join(departments, 'dept_id')
+final_df = emp_dept.join(projects, 'emp_id')
+final_df.show()
+
+
+
+
 🧠 Tip:
 If the column names you're joining on are different, you can do:
 
