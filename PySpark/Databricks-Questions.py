@@ -1,7 +1,7 @@
 Level 1: Basics & Aggregations
 
 Calculate total revenue per product.
-Count unique customers per product.
+Count unique customers per product.  (as kont product ahe je sglyanni ghetly)
 Find the most frequently purchased product.
 Get average price of products sold per day.
 Count total number of orders per customer.
