@@ -1,6 +1,11 @@
 Useful PySpark Functions (like size())
 
 
+
+Whenever you use functions like col, lit, when, split, size, etc. — make sure to import them first:
+from pyspark.sql.functions import col, lit, when, split, size, upper, length, round
+
+
 1. size() → 📏 Count elements in an array
  
 from pyspark.sql.functions import size, split
