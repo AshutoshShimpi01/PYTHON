@@ -49,7 +49,7 @@ squares = [i*i for i in range(5)]
 
 ✅ 5. What are lambda functions?
 Answer:
-Anonymous functions written in one line.
+(Anonymous) when we functions written in one line.
 
 add = lambda x, y: x + y
 add(3, 5)  # Output: 8
