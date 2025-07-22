@@ -9,3 +9,12 @@
 | **Best Use Case**     | Ideal for **exploration or prototyping**               | Ideal for **big data processing and ETL pipelines**     |
 | **Execution Model**   | **Eager execution** — runs immediately                 | **Lazy execution** — waits until an action is triggered |
 | **Integration**       | Works well with **Python tools** (matplotlib, sklearn) | Integrates with **Hadoop, Hive, BigQuery**, etc.        |
+
+
+
+
+
+
+Use Pandas when data fits in memory and you're doing local analysis.
+
+Use PySpark for big data, distributed computing, or when working in clusters/cloud.
