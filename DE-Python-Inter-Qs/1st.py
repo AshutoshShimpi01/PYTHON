@@ -22,7 +22,7 @@ Tuple: Ordered, immutable, allows duplicates (())
 
 Set: Unordered, mutable, no duplicates (set())
 
-Dictionary: Key-value pairs, unordered, mutable ({})
+Dictionary: Key-value pairs, unordered, mutable no duplicates({})
 
 ✅ 3. What is the difference between shallow copy and deep copy?
 Answer:
