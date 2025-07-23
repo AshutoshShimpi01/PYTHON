@@ -27,6 +27,9 @@ from pyspark.sql.functions import col
 
 df = spark.createDataFrame([("Alice", 20)], ["name", "age"])
 df = df.withColumn("age_plus_10", col("age") + 10)
+--Same both
+employees_df.withColumn("age_plus_10", employees_df.salary + 101).show()
+
 🟢 Adds 10 to the age.
 
 ✅ 3. Create a new column with constant value
