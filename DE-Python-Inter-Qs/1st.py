@@ -27,9 +27,9 @@ Dictionary: Key-value pairs, unordered, mutable no duplicates({})
 ✅ 3. What is the difference between shallow copy and deep copy?
 Answer:
 
-Shallow copy creates a new object but references the same inner objects.
+Shallow copy creates  new object but references inner objects.
 
-Deep copy recursively copies all nested objects.
+Deep copy copies all nested objects.
 
 import copy
 shallow = copy.copy(original)
