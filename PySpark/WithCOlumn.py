@@ -105,3 +105,12 @@ from pyspark.sql.functions import round
 df = df.withColumn("rounded_age", round(col("age") / 3, 2))
 🟢 Divides age by 3 and rounds to 2 decimal places.
 
+
+
+| Purpose                | Code Example                               |
+| ---------------------- | ------------------------------------------ |
+| Built-in function      | `withColumn("new", upper(col("name")))`    |
+| Math operation         | `withColumn("bonus", col("salary") * 0.1)` |
+| String length          | `withColumn("len", length(col("name")))`   |
+| Custom Python function | Use `udf()` with `withColumn(...)`         |
+
