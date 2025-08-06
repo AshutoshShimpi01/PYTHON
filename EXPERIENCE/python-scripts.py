@@ -1,3 +1,121 @@
+Basic-
+
+
+Absolutely! Here’s a gentle, step-by-step start to learning Python scripts for Google Cloud Platform (GCP), 
+with **very basic examples and explanations**. These are perfect if you’re new to both Python and GCP:
+
+## 1. **Setting Up Python for GCP**
+
+Before you begin, you’ll need:
+- Python installed on your computer (Python 3.7+ recommended).
+- The `google-cloud-bigquery` Python package (or other GCP libraries).  
+  Install it by opening your terminal/command prompt and running:
+  ```bash
+  pip install google-cloud-bigquery
+  ```
+
+## 2. **A Very Simple Python Script**
+
+Let’s write your first Python script! This has nothing to do with GCP yet—just to help you get comfortable.
+
+```python
+print("Hello, GCP!")
+```
+**How to run it:**
+1. Open a text editor.
+2. Paste the code above and save it as `hello_gcp.py`.
+3. Open your terminal, navigate to the file, and type:
+   ```bash
+   python hello_gcp.py
+   ```
+4. You’ll see:
+   ```
+   Hello, GCP!
+   ```
+
+## 3. **Connecting to GCP: Your First BigQuery Script**
+
+Now, let’s try a very basic script to connect to BigQuery and list your project’s datasets.
+
+**Step 1:**  
+Make sure the `google-cloud-bigquery` package is installed, and you have GCP credentials set up (usually via a service account).  
+[Official guide for authentication if you need help.]
+
+**Step 2:**  
+Here’s a simple script:
+
+```python
+from google.cloud import bigquery
+
+# This line connects to BigQuery. 
+client = bigquery.Client()
+
+# List all datasets in your default project
+datasets = list(client.list_datasets())
+if datasets:
+    print("Your datasets:")
+    for dataset in datasets:
+        print(dataset.dataset_id)
+else:
+    print("No datasets found.")
+```
+
+**How to run:**
+- Save as `list_datasets.py`.
+- Run with:
+  ```bash
+  python list_datasets.py
+  ```
+- This script prints all your BigQuery datasets.
+
+## 4. **Reading Data from BigQuery (Public Data Example)**
+
+Here’s a script that fetches some data from a free, public BigQuery dataset:
+
+```python
+from google.cloud import bigquery
+
+client = bigquery.Client()
+
+query = """
+    SELECT name, SUM(number) AS total
+    FROM `bigquery-public-data.usa_names.usa_1910_current`
+    WHERE state = 'TX'
+    GROUP BY name
+    ORDER BY total DESC
+    LIMIT 5
+"""
+query_job = client.query(query)
+for row in query_job:
+    print(f"Name: {row['name']}, Total: {row['total']}")
+```
+**This script:** connects to BigQuery, runs a SQL query on US baby names for Texas, and shows the top 5 names.
+
+## 5. **Where to Go Next**
+
+- Practice with tiny scripts like these, changing small parts and rerunning.
+- Learn basic Python concepts: variables, lists, loops, functions—all help with GCP scripting.
+- Once you’re comfortable, move on to scripts for loading data, automating tasks, or connecting to other GCP services.
+
+**Tip:** Start small, experiment, and don’t be afraid to break things! Each little step builds your real-world skills.
+
+If you’d like help with Python basics or want to try more GCP scripts, just say the word and I’ll guide you one step at a time.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Learning Python scripts for Google Cloud Platform (GCP) is a great way to work with big data, automate workflows, and build modern cloud-based solutions. Here’s a beginner-friendly roadmap with practical script examples and explanations for the most popular GCP data engineering tasks.
 
 ## **1. Querying BigQuery with Python**
