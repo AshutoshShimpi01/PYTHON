@@ -166,10 +166,10 @@ Output: "hsotuhsA si nem"
 
 def rw(sentence):
     wrd = sentence.split()
-    rv = [w[::-1] for w in wrd]
+    rv = [i[::-1] for i in wrd]
     return ' '.join(rv)
 
-print(rw("Ashutosh is men"))
+print(rw("Ashutosh is man"))
 
 
 (2)
