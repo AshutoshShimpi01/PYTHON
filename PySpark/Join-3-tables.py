@@ -48,3 +48,23 @@ If the column names you're joining on are different, you can do:
 
 df1.join(df2, df1["id"] == df2["user_id"], how="inner")
 And then .drop() one of the duplicate columns if needed.
+
+
+
+------------------
+
+How to find Employees without Managers?
+from pyspark.sql.functions import col
+
+# Left join employees with themselves on manager ID
+emp_mgr_join = employees_df.alias('e').join(
+    employees_df.alias('m'),
+    col('e.mgr_id') == col('m.emp_id'),
+    how='left'
+)
+
+# Filter employees where manager info is NULL (i.e., no matching manager)
+employees_without_managers = emp_mgr_join.filter(col('m.emp_id').isNull()).select('e.emp_id', 'e.name')
+
+employees_without_managers.show()
+
