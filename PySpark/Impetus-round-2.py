@@ -1,5 +1,5 @@
 
-Question 1 : Find the customers whose total purchase value is more than double their refund value 
+# Question 1 : Find the customers whose total purchase value is more than double their refund value 
 
 
 WITH CustomerSummary AS (
@@ -16,7 +16,7 @@ WHERE total_purchase > 2 * total_refund;
 
 
   
-Question 2 : Identify the cities with more than 3 purchases 
+# Question 2 : Identify the cities with more than 3 purchases 
 
 
 SELECT city, COUNT(*) AS purchase_count
@@ -28,7 +28,7 @@ HAVING COUNT(*) > 3;
 
 
    
-Question 3 : Find the second highest transaction for first city 
+# Question 3 : Find the second highest transaction for first city 
 
 WITH RankedTransactions AS
 (
@@ -83,4 +83,25 @@ df_avg_city = df.join(avg_df, on="city")
 # 3. Calculate total spending per customer
 final_df = df_avg_city.groupBy("c_id", "city", "avg_city_v").agg(sum("o_amt").alias("total_order_value"))
 final_df.filter(col("total_order_value") > col("avg_city_v")).show()
-    
+
+
+
+
+
+
+# Question 3 : Find the customers whose place the orders in consecutive address 
+
+from pyspark.sql.functions import lag, col
+from pyspark.sql.window import Window
+
+# 1. Define the Window (Partition by customer, order by date)
+window_spec = Window.partitionBy("c_id").orderBy("o_date")
+# 2. Use LAG on the Location column
+df_with_prev_loc = df.withColumn("prev_location", lag(col("Location"), 1).over(window_spec))
+# 3. Filter for records where the current location is NOT the same as the previous location
+# and the previous location is not null (i.e., it's not the customer's very first order).
+consecutive_address_df = df_with_prev_loc.filter((col("Location").isNotNull()) & (col("prev_location").isNotNull()) & 
+                         (col("Location") != col("prev_location")))
+
+# Show the results
+consecutive_address_df.select("c_id", "o_date", "prev_location", "Location").show()
