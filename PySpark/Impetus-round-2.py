@@ -39,10 +39,9 @@ FROM transactions
 SELECT city, t_id, c_id, t_amount
 FROM RankedTransactions
 WHERE rank_num = 2 AND city = (SELECT MIN(city) FROM transactions);
-
-
+                           
 ------
-SUBQUERY
+SAME USING SUBQUERY
 ------
 
 SELECT  t.transaction_amount
