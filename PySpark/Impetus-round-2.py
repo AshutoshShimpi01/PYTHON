@@ -2,7 +2,6 @@
 Question 1 : Find the customers whose total purchase value is more than double their refund value 
 
 
-
 WITH CustomerSummary AS (
     -- Step 1: Aggregate total purchase value and total refund value for each customer
     SELECT
@@ -21,3 +20,21 @@ FROM
     CustomerSummary
 WHERE
     total_purchase > 2 * total_refund;
+
+
+
+  
+Question 2 : Identify the cities with more than 3 purchases 
+
+
+SELECT
+    city,
+    COUNT(*) AS purchase_count
+FROM
+    transactions -- CORRECTED: Should be the table containing transaction details
+WHERE
+    transaction_type = 'Purchase' -- Filtering the base data for purchases
+GROUP BY
+    city
+HAVING
+    COUNT(*) > 3; -- Filtering the aggregated groups (cities);
