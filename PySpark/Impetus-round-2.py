@@ -72,7 +72,7 @@ df.groupBy('cust_id').agg(sum('price').alias('total_paid')).orderBy(col('total_p
 
 
 
-# Question 2 : Identify customers whose total order value is higher than the city average
+# Question 2 : Identify customers whose total order value is higher than the city average value
 
 from pyspark.sql.functions import sum, avg, col
 
