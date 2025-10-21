@@ -65,7 +65,22 @@ from pyspark.sql import SparkSession
    df = spark.read.csv("s3_path + orders.csv",headers=True,inferschema=True)
 
      
-Question 1 : Find the top three customers by total order value 
+# Question 1 : Find the top three customers by total order value 
 ANS :- 100%
      
 df.groupBy('cust_id').agg(sum('price').alias('total_paid')).orderBy(col('total_paid').desc()).limit(3).show()
+
+
+
+# Question 2 : Identify customers whose total order value is higher than the city average
+
+from pyspark.sql.functions import sum, avg, col
+
+# 1. Calculate the average order value per city
+avg_df = df.groupBy("city").agg(avg("o_amt").alias("avg_city_v"))
+# 2. Join the main df with the city average
+df_avg_city = df.join(avg_df, on="city")
+# 3. Calculate total spending per customer
+final_df = df_avg_city.groupBy("c_id", "city", "avg_city_v").agg(sum("o_amt").alias("total_order_value"))
+final_df.filter(col("total_order_value") > col("avg_city_v")).show()
+    
