@@ -129,13 +129,12 @@ Question 5 : Write SQL Query to get Employee Name, Manager ID and number of empl
 Given Employee Table:
 
 
-SELECT 
-    E1.Name, 
-    E1.MGR_ID, 
-    (SELECT COUNT(*) 
-     FROM EmployeeInfo E2 
-     WHERE E2.DeptId = E1.DeptId) AS Dep_EMP_Count
-FROM EmployeeInfo E1;
+SELECT
+    Name,
+    MGR_ID,
+    COUNT(*) OVER (PARTITION BY DeptId) AS Dep_EMP_Count
+FROM
+    EmployeeInfo;
 
 
 
